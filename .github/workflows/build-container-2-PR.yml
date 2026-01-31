@@ -2,18 +2,49 @@ name: 'Build container (PR/2)'
 
 on:
   merge_group:
-  push:
-    branches-ignore:
-      - main
+  #push:
+  #  branches-ignore:
+  #    - main
+  #  paths:
+  #    - .github/workflows/dbuild-container-2-PR.yml
   pull_request:
     branches:
       - main
-    paths:
-      - .github/workflows/not-a-file.yml
 
 jobs:
   pr-merge_queue_only-2:
     name: PR image (2)
     runs-on: ubuntu-latest
     steps:
-      - run: The needed required check
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Detect changed files and compute condition
+        id: filter
+        run: |
+          set -eux
+          git remote add organization "${{ github.event.pull_request.base.repo.clone_url }}"
+          git remote add contributor  "${{ github.event.pull_request.head.repo.clone_url }}"
+          git fetch organization
+          git fetch contributor
+          OREF="${{ github.event.pull_request.base.ref }}"
+          CREF="${{ github.event.pull_request.head.ref }}"
+          CHANGED=$(git diff --name-only "organization/$OREF" "contributor/$CREF")
+          echo "changed_files: $CHANGED"
+          if [[ "${GITHUB_EVENT_NAME}" == "merge_group" ]]; then
+            # We only wait in this state for the tests from the PR trigger to finish
+            # This should also give 0 changed files so this is mostly explanation of the
+            # 'interesting' GHA flow.
+            echo "should_run=false" >> $GITHUB_OUTPUT
+          else
+            # None of the interesting files changed
+            echo "should_run=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: "Skip"
+        if: steps.filter.outputs.should_run == 'false'
+        run: echo "Skip"
+
+      - name: "Run"
+        if: steps.filter.outputs.should_run == 'true'
+        run: echo "The needed required check"
