@@ -5,8 +5,8 @@ on:
   push:
     branches-ignore:
       - main
-    paths:
-      - .github/workflows/dbuild-container-2-PR.yml
+    #paths:
+    #  - .github/workflows/dbuild-container-2-PR.yml
   pull_request:
     branches:
       - main
