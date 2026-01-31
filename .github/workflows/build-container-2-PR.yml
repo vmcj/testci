@@ -19,6 +19,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - run: |
+          .jq '.github' "${{ github }}"
+
       - name: Detect changed files and compute condition
         id: filter
         run: |
