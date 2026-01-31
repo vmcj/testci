@@ -2,11 +2,11 @@ name: 'Build container (PR)'
 
 on:
   merge_group:
-  #push:
-  #  branches-ignore:
-  #    - main
-  #  paths:
-  #    - .github/workflows/build-container-PR.yml
+  push:
+    branches-ignore:
+      - main
+    paths:
+      - .github/workflows/build-container-PR.yml
   pull_request:
     branches:
       - main
