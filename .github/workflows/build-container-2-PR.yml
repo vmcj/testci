@@ -3,8 +3,8 @@ name: 'Build container (PR/2)'
 on:
   merge_group:
   push:
-    #branches-ignore:
-    #  - main
+    branches-ignore:
+      - main
   pull_request:
     branches:
       - main
