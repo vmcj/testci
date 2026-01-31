@@ -19,8 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - run: |
-          jq '.github' "${{ github }}"
+      - run: cat "$GITHUB_EVENT_PATH"
 
       - name: Detect changed files and compute condition
         id: filter
