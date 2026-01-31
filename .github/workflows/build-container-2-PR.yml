@@ -27,10 +27,21 @@ jobs:
           set -eux
           git remote add organization "${{ github.event.pull_request.base.repo.clone_url }}"
           git remote add contributor  "${{ github.event.pull_request.head.repo.clone_url }}"
+          OREF="failure"
+          CREF="failure"
+          if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
+            OREF="${{ github.event.pull_request.base.ref }}"
+            CREF="${{ github.event.pull_request.head.ref }}"
+            git remote add organization "${{ github.event.pull_request.base.repo.clone_url }}"
+            git remote add contributor  "${{ github.event.pull_request.head.repo.clone_url }}"
+          elif [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
+            OREF="main"
+            CREF="${{ github.event.ref }}"
+            git remote add organization "${{ github.event.repository.clone_url }}"
+            git remote add contributor  "${{ github.event.repository.clone_url }}"
+          fi
           git fetch organization
           git fetch contributor
-          OREF="${{ github.event.pull_request.base.ref }}"
-          CREF="${{ github.event.pull_request.head.ref }}"
           CHANGED=$(git diff --name-only "organization/$OREF" "contributor/$CREF")
           echo "changed_files: $CHANGED"
           if [[ "${GITHUB_EVENT_NAME}" == "merge_group" ]]; then
