@@ -1,0 +1,19 @@
+name: 'Build container (PR/2)'
+
+on:
+  merge_group:
+  push:
+    #branches-ignore:
+    #  - main
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/not-a-file.yml
+
+jobs:
+  pr-merge_queue_only-2:
+    name: PR image (2)
+    runs-on: ubuntu-latest
+    steps:
+      - run: The needed required check

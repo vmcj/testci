@@ -1,0 +1,17 @@
+name: 'Build container (Release)'
+
+on:
+  schedule:
+    - cron: "4 3 * * 5"
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-release-container:
+    if: ${{ github.repository == 'vmcj/testci' }}
+    name: Build image
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Assume we ran the final build"
