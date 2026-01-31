@@ -27,14 +27,21 @@ jobs:
           set -eux
           OREF="failure"
           CREF="failure"
+          # Hardcode the organization and target branch to us
+          # Alternative is to use:
+          # - "${{ github.event.pull_request.base.repo.clone_url }}"
+          # - "${{ github.event.pull_request.base.ref }}"
+          # - "${{ github.event.repository.default_branch }}"
+          # For more info see: `cat "$GITHUB_EVENT_PATH"
           if [[ "${GITHUB_EVENT_NAME}" == "pull_request" ]]; then
             OREF="${{ github.event.pull_request.base.ref }}"
             CREF="${{ github.event.pull_request.head.ref }}"
             git remote add organization "${{ github.event.pull_request.base.repo.clone_url }}"
             git remote add contributor  "${{ github.event.pull_request.head.repo.clone_url }}"
           elif [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
-            OREF="main"
-            CREF="${{ github.event.ref }}"
+            TMP="${{ github.event.ref }}"
+            OREF="${{ github.event.repository.default_branch }}"
+            CREF="${TMP##refs\/heads\/}"
             git remote add organization "${{ github.event.repository.clone_url }}"
             git remote add contributor  "${{ github.event.repository.clone_url }}"
           fi
