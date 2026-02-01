@@ -1,3 +1,3 @@
 #!/bin/sh
 
-echo ${{ github.repository }}
+echo "${{ github.repository }}"
