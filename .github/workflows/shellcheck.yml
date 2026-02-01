@@ -10,10 +10,11 @@ jobs:
   shellcheck:
     name: Shellcheck
     runs-on: ubuntu-latest
-    if: ${{ github.repository == 'vmcj/testci' && github.ref_name == 'pr_2' }}
+    if: ${{ !(github.repository == 'vmcj/testci' && github.ref_name == 'pr_2') }}
     steps:
       - run: cat "$GITHUB_EVENT_PATH"
       - run: echo "${{ github.repository }}"
       - run: echo "${{ github.ref }}"
       - run: echo "${{ github.ref_name }}"
       - run: echo "Always run this check"
+      - run: echo "${{ github.repository == 'vmcj/testci' && github.ref_name == 'pr_2' }}"
