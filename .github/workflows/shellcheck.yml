@@ -13,7 +13,7 @@ jobs:
     if: ${{ !(github.repository == 'vmcj/testci' && github.ref_name == 'pr_2') }}
     steps:
       - uses: actions/checkout@v4
-      - run: ./deduplication.sh
+      - run: . ./deduplication.sh
       - run: cat "$GITHUB_EVENT_PATH"
       - run: echo "${{ github.repository }}"
       - run: echo "${{ github.ref }}"
