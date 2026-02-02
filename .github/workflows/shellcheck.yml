@@ -13,6 +13,9 @@ jobs:
     if: ${{ !(github.repository == 'vmcj/testci' && github.ref_name == 'pr_2') }}
     steps:
       - uses: actions/checkout@v4
+      - run: echo "$GITHUB_EVENT_NAME"
+      - run: git log -p
+      - uses: ./.github/workflows/workflow-2.yml
       - run: cat "$GITHUB_EVENT_PATH"
       - run: echo "${{ github.repository }}"
       - run: echo "${{ github.ref }}"
