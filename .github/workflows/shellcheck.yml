@@ -2,6 +2,7 @@ name: 'Shellcheck'
 
 on:
   push:
+  merge_group:
   pull_request:
     branches:
       - main
