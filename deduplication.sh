@@ -1,3 +1,4 @@
 #!/bin/sh
 
-echo "${{ github.repository }}"
+exit 0
+#echo "${{ github.repository }}"
